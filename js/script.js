@@ -29,19 +29,16 @@ const getAmounts = function() {
 getAmounts();
 
 const mission = prompt('Сколько вы хотите накопить ?');
-
-console.log('Тип данных переменной ' + ' money - ' + typeof money + ','  + ' addExpenses - ' + typeof addExpenses + ','  + ' deposit - ' + typeof deposit + ','  + ' expenses1 - ' + typeof expenses1 + ','  + ' expenses2 - ' + typeof expenses2 + ','  + ' amount1 - ' + typeof amount1 + ','  + ' amount2 - ' + typeof amount2 + ','  + ' mission - ' + typeof mission);
-console.log(addExpenses.toLowerCase().split(', ')); 
+let sum = 0;
 
 const getExpensesMonth  = function(amount1, amount2) {
 	return sum = Number(amount1) + Number(amount2);
 }
-console.log('1.Функция возвращает сумму всех обязательных расходов за месяц - ' + getExpensesMonth(amount1, amount2));
 
 const getAccumulatedMonth = function(money, sum) {
 	return result = Number(money) - Number(sum);
 }
-console.log('2.Функция возвращает накопления за месяц (Доходы минус расходы) - ' + getAccumulatedMonth(money, sum)) ;
+
 
 const accumulatedMonth = getAccumulatedMonth(money, sum);
 const budgetDay = accumulatedMonth / 30;
@@ -55,10 +52,6 @@ const getTargetMonth =  function() {
 	}
 }
 
-console.log(getTargetMonth());
-
-console.log('Бюджет на день : ' + Math.round(budgetDay));
-
 const getStatusIncome = function() {
    if (budgetDay >= 1200) {
       return ('У вас высокий уровень дохода');
@@ -71,5 +64,11 @@ const getStatusIncome = function() {
    }
 }
 
+console.log('Тип данных переменной ' + ' money - ' + typeof money + ','  + ' addExpenses - ' + typeof addExpenses + ','  + ' deposit - ' + typeof deposit + ','  + ' expenses1 - ' + typeof expenses1 + ','  + ' expenses2 - ' + typeof expenses2 + ','  + ' amount1 - ' + typeof amount1 + ','  + ' amount2 - ' + typeof amount2 + ','  + ' mission - ' + typeof mission);
+console.log(addExpenses.toLowerCase().split(', ')); 
+console.log('1.Функция возвращает сумму всех обязательных расходов за месяц - ' + getExpensesMonth(amount1, amount2));
+console.log('2.Функция возвращает накопления за месяц (Доходы минус расходы) - ' + getAccumulatedMonth(money, sum));
+console.log('Бюджет на день : ' + Math.round(budgetDay));
+console.log(getTargetMonth());
 console.log(getStatusIncome());
 
