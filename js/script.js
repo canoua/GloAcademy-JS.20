@@ -47,18 +47,16 @@ const appData = {
 		appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Квартира, коммуналка, еда, одежда');
 		appData.deposit = confirm('Есть ли у вас депозит в банке');
 		console.log(appData.addExpenses.toLowerCase().split(', '));
-		let expenses = [];
 		const getExpensesMonth = function () {
-			let sum = 0;
-			let question;
 			for (let i = 0; i < 2; i++) {
-				expenses[i] = prompt('Введите обязательную статью расходов', 'квартира');
-				sum += +prompt('Во сколько это обойдется', 10000);
+				exp = prompt('Введите обязательную статью расходов', 'квартира');
+				let sum = 0;
+				do{
+					sum = prompt('Во сколько это обойдется', 10000);
+				} 
+				while(isNaN(sum));
+				appData.expenses[exp] = +sum;
 			}
-			appData.expensesMonth = sum;
-			appData.expenses = expenses;
-			console.log(expenses);
-			return sum;
 		}
 		getExpensesMonth();
 	}
@@ -70,6 +68,7 @@ appData.getBudget();
 appData.getTargetMonth();
 console.log('Бюджет на день: ' + appData.budgetDay);
 console.log(appData.getStatusIncome());
+console.log(appData.expenses);
 
 
 for (let prop in appData) {
