@@ -1,7 +1,7 @@
 
 'use strict'
 
-let start = document.getElementById('start'),
+const start = document.getElementById('start'),
 	 btnPlus = document.getElementsByTagName('button'),
 	 incomePlus = btnPlus[0],
 	 expensesPlus = btnPlus[1],
@@ -24,10 +24,10 @@ let start = document.getElementById('start'),
 	 periodSelect = document.querySelector('.period-select'),
 	 periodAmount = document.querySelector('.period-amount'),
 	 additionalExpensesItem = document.querySelector('.additional_expenses-item'),
-	 incomeItem = document.querySelectorAll('.income-items');
+	 incomeItems = document.querySelectorAll('.income-items');
 
 
-let appData = {
+const appData = {
 	addExpenses: [],
 	budget: 0,
 	budgetDay: 0,
@@ -41,6 +41,7 @@ let appData = {
 	percentDeposit: 0,
 	moneyDeposit: 0,
 	start: function() {
+		appData.budget = +salaryAmount.value;
 		appData.getExpenses();
 		appData.getIncome();
 		appData.getExpensesMonth();
@@ -58,6 +59,10 @@ let appData = {
 		targetMonthValue.value = Math.ceil(appData.getTargetMonth());
 		additionalIncomeValue.value = appData.addIncome.join(', ');
 		incomePeriodValue.value = appData.calcPeriod();
+		periodSelect.addEventListener('change', function() {
+			console.log(periodAmount.value);
+		 	// incomePeriodValue.value =  periodAmount.value;
+		})
 	},
 	addExpensesBlock: function() {
 		let cloneExpensesItem = expensesItems[0].cloneNode(true);
@@ -65,6 +70,15 @@ let appData = {
 		expensesItems = document.querySelectorAll('.expenses-items');
 		if (expensesItems.length === 3) {
 			expensesPlus.style.display = 'none';
+		}
+	},
+	//2 задание
+	addIncomeBlock: function() {
+		let cloneInecomeItem = incomeItems[0].cloneNode(true);
+		incomeItems[0].parentNode.insertBefore(cloneInecomeItem, incomePlus);
+		incomeItems = document.querySelectorAll('.income-items');
+		if(incomeItems.length === 3) {
+			incomePlus.style.display = 'none';
 		}
 	},
 	getExpenses: function(){
@@ -77,9 +91,14 @@ let appData = {
 		})
 	},
 	getIncome: function() {
-		for (let key in appData.income) {
-			appData.incomeMonth += +appData.income[key];
-		}
+		// 1 задание
+		incomeItems.forEach(function(item) {
+			let incomeTitle = item.querySelector('.income-title').value;
+			let incomeAmount = item.querySelector('.income-amount').value;
+			if(incomeTitle !== '' && incomeAmount !== '') {
+				appData.income[incomeTitle] = incomeAmount;
+			}
+		})
 	},
 	getAddExpenses: function() {
 		let addExpenses = additionalExpensesItem.value.split(',');
@@ -135,16 +154,20 @@ let appData = {
 		return appData.budgetMonth * periodSelect.value;
 	}
 };
+
+
+
  if (salaryAmount !== '') {
  	start.addEventListener('click', appData.start);
  }
 
 //4) Число под полоской (input type range) должно меняться в зависимости от позиции range, используем событие input.
 let  eventFunc = function(event) {
-	console.log(event.type);
 	document.querySelector('.period-amount').textContent = event.target.value;
 }
 periodSelect.addEventListener('change', eventFunc);
 ///4)/
 
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
+incomePlus.addEventListener('click', appData.addIncomeBlock);
+
