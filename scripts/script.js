@@ -8,10 +8,8 @@ const todoControl = document.querySelector('.todo-control'),
    
 
 let todoData = [];
-// if(localStorage.todoData !== null) {
-//   todoData = JSON.parse(localStorage.getItem('todo'));
-// }
-
+console.log(todoData);
+ 
 
 const render = function() {
   todoList.textContent = '';
@@ -70,9 +68,12 @@ todoControl.addEventListener('submit', function(event) {
     alert('Вы не ввели текст:(');
     return false;
   } else{console.log('все ок')}
-
+ 
   todoData.push(newTodo);
-
+ 
   render();
   headerInput.value = '';
+ 
+ 
+  
 })
