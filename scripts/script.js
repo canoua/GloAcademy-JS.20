@@ -9,7 +9,6 @@ const todoControl = document.querySelector('.todo-control'),
 
 let todoData = [];
 console.log(todoData);
- 
 
 const render = function() {
   todoList.textContent = '';
@@ -48,12 +47,10 @@ const render = function() {
         item.completed = !item.completed;
         render();
       })
-
     })
 }
 
 
-//submit - тк эта кнопка в форме 
 todoControl.addEventListener('submit', function(event) {
   event.preventDefault();
 
@@ -68,12 +65,15 @@ todoControl.addEventListener('submit', function(event) {
     alert('Вы не ввели текст:(');
     return false;
   } else{console.log('все ок')}
- 
   todoData.push(newTodo);
- 
+   
   render();
+  let newArr = JSON.stringify(todoData);
+  localStorage.setItem('todo', newArr);
+
+  let newArrParse = JSON.parse(newArr);
+  // console.log(newArrParse);
+  // newArrParse = todoData;
   headerInput.value = '';
- 
- 
-  
 })
+
