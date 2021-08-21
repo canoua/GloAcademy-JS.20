@@ -4,20 +4,17 @@
 const todoControl = document.querySelector('.todo-control'),
     headerInput = document.querySelector('.header-input'),
     todoList = document.querySelector('.todo-list'),
-    todoCompleted = document.querySelector('.todo-completed');
-   
-
-let todoData = [];
-console.log(todoData);
+    todoCompleted = document.querySelector('.todo-completed'),
+    todoData = JSON.parse(localStorage.getItem('todoList')) || [];
 
 const render = function() {
   todoList.textContent = '';
   todoCompleted.textContent = '';
 
-  todoData.forEach(function(item) {
+  todoData.forEach(function(item, i) {
       const li = document.createElement('li');
-      li.classList.add('todo-item');
 
+      li.classList.add('todo-item');
       li.innerHTML = '<span class="text-todo">' +
         item.value + '</span>' + 
         '<div class="todo-buttons">' + 
@@ -25,7 +22,6 @@ const render = function() {
 				  '<button class="todo-complete"></button>' + 
         '</div>';
 
-      
       if(item.completed) {
         todoCompleted.append(li);
       }  else{
@@ -35,16 +31,17 @@ const render = function() {
       const btnTodoComplete = li.querySelector('.todo-complete'),
           btnTodoRemove = li.querySelector('.todo-remove');
 
-      
       if(btnTodoRemove) {
         btnTodoRemove.addEventListener('click', function() {
-          todoData.splice(item, 1);
+          todoData.splice(i, 1);
+          localStorage.setItem('todoList', JSON.stringify(todoData));
           render();
         })
       }
     
       btnTodoComplete.addEventListener('click', function(){
         item.completed = !item.completed;
+        localStorage.setItem('todoList', JSON.stringify(todoData));
         render();
       })
     })
@@ -54,26 +51,20 @@ const render = function() {
 todoControl.addEventListener('submit', function(event) {
   event.preventDefault();
 
-  const newTodo = {
-    value: headerInput.value ,
-    completed: false
-  };
-
-  let headerInputText = document.querySelector('.header-input').value;
-  if(headerInputText == '') {
-    console.log('Пусто!')
-    alert('Вы не ввели текст:(');
-    return false;
-  } else{console.log('все ок')}
-  todoData.push(newTodo);
+  if(headerInput.value.trim() != '') {
+    const newTodo = {
+      value: headerInput.value ,
+      completed: false
+    };
+    
+    headerInput.value = '';
+    todoData.push(newTodo);
+    localStorage.setItem('todoList', JSON.stringify(todoData));
    
-  render();
-  let newArr = JSON.stringify(todoData);
-  localStorage.setItem('todo', newArr);
+    render();
+  } else{
+    headerInput.value = '';
+  };
+});
 
-  let newArrParse = JSON.parse(newArr);
-  // console.log(newArrParse);
-  // newArrParse = todoData;
-  headerInput.value = '';
-})
-
+render();
